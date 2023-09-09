@@ -8,9 +8,10 @@ set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/c cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 
 IF exist files_detect.ps1 (
-    echo ok
+  echo ok
 ) ELSE (
-    echo files_detect.ps1 not present! && pause && exit /b 1
+  powershell -Command "$url = (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/DavidBrockmeier/windows_scripts/main/windows_11_section_manager/files_detect.ps1'); Invoke-WebRequest -Uri $url -OutFile \"$env:USERPROFILE\\Desktop\\files_detect.ps1\""
+  echo files_detect.ps1 not present! && pause && exit /b 1
 )
 
 ping 8.8.8.8 -n 1 -w 1000 > nul
@@ -41,9 +42,9 @@ copy "%userprofile%\Desktop\ep_setup\ExplorerPatcher.amd64.dll" "%userprofile%\D
 rmdir "%userprofile%\Desktop\ep_setup" /s /q
 del "%userprofile%\Desktop\ep_setup.exe"
 IF exist "%userprofile%\Desktop\dxgi.dll" (
-    echo ok
+  echo ok
 ) ELSE (
-    echo dxgi.dll not present! && pause && exit /b 1
+  echo dxgi.dll not present! && pause && exit /b 1
 )
 
 rem copy dll's
